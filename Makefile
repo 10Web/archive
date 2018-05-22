@@ -1,6 +1,6 @@
 install:
-	@npm install
-	@cd assets && npm install
+	@cnpm install
+	@cd assets && cnpm install
 
 release: front
 	@echo "env: ${env}"
@@ -11,15 +11,15 @@ release: front
 	else\
 		rsync -av . out/release --exclude .git --exclude node_modules --exclude out --exclude test;\
 	fi
-	@cd out/release && NODE_ENV=${env} npm install
+	@cd out/release && NODE_ENV=${env} cnpm install
 	@if [ -f out/release/config/config_${env}.js ]; then\
 		cp out/release/config/config_${env}.js out/release/config/config.js;\
 	fi
 
 front:
 	@echo "building assets..."
-	@npm install honeypack
-	@cd assets && NODE_ENV=production npm install
+	@cnpm install honeypack
+	@cd assets && NODE_ENV=production cnpm install
 	@cd assets && ../node_modules/.bin/honeypack build
 	@if [ -d assets/static ]; then\
 		cp -r assets/static assets/.package/static;\
