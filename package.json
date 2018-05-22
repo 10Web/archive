@@ -24,6 +24,7 @@
   "dependencies": {
     "hc-bee": "^0.0.4",
     "lodash": "4.17.4",
+    "markdown": "^0.5.0",
     "superagent": "^3.8.3"
   },
   "devDependencies": {
