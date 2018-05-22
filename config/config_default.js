@@ -23,5 +23,7 @@ module.exports = {
     }
   },
   extension: {
-  }
+  },
+  own: 'your-repositry-owner',
+  repo: 'your-repositry-url'
 };
