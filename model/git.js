@@ -5,6 +5,10 @@ const co = require('co');
 const _ = require('lodash');
 const log = require('../common/log');
 
+// 缓存,文章多了需要使用到redis
+const cache = {};
+const findCache = {};
+
 // 列出某一个项目的所有的readme
 // 用这个project作为archive的容器
 class GitArchive {
@@ -35,6 +39,18 @@ class GitArchive {
     const self = this;
     return co(function* () {
       const baseUrl = self.baseUrl;
+      const now = new Date();
+
+      // 检查缓存
+      if (cache[name + offset + limit]) {
+        log.info('use cache');
+        const save = cache[name + offset + limit];
+        // 5分钟内使用缓存
+        if (Number(save.time - now) <= 5 * 60 * 1000) {
+          return save.data;
+        }
+      }
+
       const result = yield request.get(baseUrl);
       let list = result.body;
       /**
@@ -63,6 +79,17 @@ class GitArchive {
           log.error(e.stach || e.message || e);
         }
       }
+
+      // 存入缓存
+      log.info('save cache');
+      cache[name + offset + limit] = {
+        time: new Date(),
+        data: {
+          list: list,
+          total: total
+        }
+      };
+
       return {
         list: list,
         total: total
@@ -76,10 +103,26 @@ class GitArchive {
    */
   find(filename) {
     const baseUrl = this.baseUrl;
+
+    // 检查缓存
+    if (findCache[filename]) {
+      const file = findCache[filename];
+      if (Number(file.time - new Date()) <= 60 * 1000) {
+        return file.data;
+      }
+    }
+
     return co(function* () {
       const file = (yield request.get(`${baseUrl}/${filename}`)).body;
       const content =   new Buffer(file.content, 'base64').toString();
       file.content = content;
+
+      // 存入缓存
+      findCache[filename] = {
+        time: new Date(),
+        data: file
+      };
+
       return file;
     });
   }
