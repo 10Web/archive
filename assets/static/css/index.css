@@ -83,3 +83,39 @@ body{
 .archive .right .breif{
   border-top: 1px solid #333;
 }
+
+.paging {
+  list-style: none;
+  overflow: hidden;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.paging ul{
+  padding: 0;
+}
+
+.paging ul li{
+  display: block;
+  float: left;
+  height: 30px;
+  width: 30px;
+  background: white;
+  border: 1px solid #333;
+  text-align: center;
+  margin-right: 20px;
+  line-height: 30px;
+
+}
+.paging ul li a{
+  color: #333;
+}
+
+.paging ul .now{
+  background: #333;
+  color: white;
+}
+
+.paging ul .now a{
+  color: white;
+}

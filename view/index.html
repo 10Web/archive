@@ -34,14 +34,20 @@
               </div>
             </div>
           </div>
-          <a class="right" v-bind:href="'<%= prefix %>/p/' + archive.name">
+          <a class="right" v-bind:href="'<%= prefix %>/p/' + archive.name" target="_blank">
             <h3>{{ archive.name.replace(/\.md$/, '') }}</h3>
             <div class="breif">
               {{ archive.content }}
             </div>
           </a>
         </div>
-
+        <div class="paging">
+          <ul>
+            <li v-for="n in totalPage" v-bind:class="{'now': Number(n) === Number(page)}">
+              <a v-bind:href="'<%= prefix %>/page=' + n">{{n}}</a>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- 右边的广告列表 -->
@@ -49,8 +55,20 @@
     </div>
     <script src="<%= prefix %>/assets/static/js/markdown.js"></script>
     <script>
+
+      // markdown转html函数
       function markdown2html(text){
         return markdown.toHTML(text);
+      }
+      
+      // 返回当前的页码
+      function nowPage(){
+        const match = window.location.search.match(/page=([\d]+)/);
+        if(match){
+          return match[1];
+        }else{
+          return 1;
+        }
       }
 
       const vue = new Vue({
@@ -58,7 +76,9 @@
         data: {
           archives: [],
           loading: true,
-          total: 0
+          total: 0,
+          page: nowPage(),
+          totalPage: 0,
         },
         created: function(){
           this.loading = true;
@@ -67,6 +87,7 @@
            .then(resp => {
              if(resp.code === 'SUCCESS'){
               this.total = resp.data.total;
+              this.totalPage = Math.ceil((this.total / 10));
               this.archives = resp.data.list.map(item => {
                  // 从markdown => html
                  item.content = markdown2html(item.content);
@@ -79,9 +100,6 @@
              }
              this.loading = false;
            });
-        },
-        methods: {
-          
         }
       });
 
