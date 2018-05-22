@@ -23,5 +23,12 @@ module.exports = {
     }
   },
   extension: {
+  },
+  mysql: {
+    database: 'your-database',
+    username: 'your-username',
+    password: 'your-password',
+    host: 'your-host',
+    port: 9999
   }
 };
