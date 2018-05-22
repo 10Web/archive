@@ -1,75 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-  <style>
-    *{
-      padding: 0;
-      margin: 0;
-      outline: none;
-    }
-    body {
-      padding: 25px;
-    }
-    .title-logo{
-      width: 35px;
-      height: 40px;
-      vertical-align: middle;
-    }
-    .title-text{
-      margin-left: 15px;
-    }
-    .content{
-      margin-top: 10px;
-      border: 1px solid #eee;
-      border-radius: 4px;
-      padding: 20px;
-    }
-    h3{
-      margin: 20px 0 10px 0;
-    }
-    pre {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #333;
-    }
-  </style>
-  <h1 class="title">
-    <img src="<%= prefix %>/assets/static/img/logo.png" alt="logo" class="title-logo">
-    <span class="title-text">Welcome to Honeycomb!</span>
-  </h1>
-  <div class="content">
-    <h2>快速入门</h2>
-    <h3>编写控制器</h3>
-    <pre>
-  // controller/hello.js
-  /**
-  * @api {get} /hello
-  */
-  exports.hello = (req, callback) => {
-      callback(null, 'world');
-  };
-    </pre>
-    <h3>中间件使用(middleware)</h3>
-    <p>在honeybee应用框架中，使用读取配置的方法加载中间件，因此绝大多数的中间件只需修改配置文件即可使用，例如加载webpack中间件：</p>
-    <pre>
-  // config/config_default.js
-  // ...
-  middleware: {
-    webpack: {
-      enable: true,
-      module: 'honeypack',  // 需要通过tnpm i honeypack --save来安装依赖
-      router: '/assets'
-    },
-    spa: {
-      enable: true
-    }
-  }
-  // ...
-    </pre>
-  </div>
-</body>
+<html>
+  <head lang="en">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <title>亿灵软件开发联盟</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <link rel="shortcut icon" href="http://eling.net.cn/assets/i/favicon.ico">
+  <link href="<%= prefix %>/assets/static/css/index.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+  <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/superagent/3.8.3/superagent.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <%- include('./header.html') %>
+    <div class="comWidth">
+      <!-- 左边的archive列表 -->
+      <div class="content am-u-sm-12 am-u-md-8 am-u-lg-8" id="archive">
+        <h1>列表</h1>
+        <div class="loding" v-if="loading">
+          加载中...
+        </div>
+
+        <div class="archive" v-for="archive in archives">
+          <div class="left">
+            <div class="inner">
+              <h2>字数</h2>
+              <h4>count</h4>
+              <div class="count">
+                <h1>{{ archive.size }}</h1>
+              </div>
+            </div>
+          </div>
+          <a class="right" v-bind:href="'<%= prefix %>/p/' + archive.name">
+            <h3>{{ archive.name.replace(/\.md$/, '') }}</h3>
+            <div class="breif">
+              {{ archive.content }}
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- 右边的广告列表 -->
+      <div class="ad am-u-sm-12 am-u-md-4 am-u-lg-4"></div>
+    </div>
+    <script src="<%= prefix %>/assets/static/js/markdown.js"></script>
+    <script>
+      function markdown2html(text){
+        return markdown.toHTML(text);
+      }
+
+      const vue = new Vue({
+        el: '#archive',
+        data: {
+          archives: [],
+          loading: true,
+          total: 0
+        },
+        created: function(){
+          this.loading = true;
+          superagent.get('<%= prefix %>/list')
+           .then(result => result.body)
+           .then(resp => {
+             if(resp.code === 'SUCCESS'){
+              this.total = resp.data.total;
+              this.archives = resp.data.list.map(item => {
+                 // 从markdown => html
+                 item.content = markdown2html(item.content);
+                 // html => text
+                 item.content = $(item.content).text();
+                 return item;
+              });
+             }else{
+               alert('请求失败');
+             }
+             this.loading = false;
+           });
+        },
+        methods: {
+          
+        }
+      });
+
+    </script>
+  </body>
 </html>

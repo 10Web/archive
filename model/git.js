@@ -52,6 +52,8 @@ class GitArchive {
       list = list.filter(i => {
         return i.name.indexOf(name) >= 0;
       });
+      const total = list.length;
+      // 切割
       list = _.slice(list, offset, offset + limit);
       for (let item of list) {
         try {
@@ -61,7 +63,10 @@ class GitArchive {
           log.error(e.stach || e.message || e);
         }
       }
-      return list;
+      return {
+        list: list,
+        total: total
+      };
     });
   }
 

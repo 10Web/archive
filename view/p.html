@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <title>亿灵软件开发联盟</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <link rel="shortcut icon" href="http://eling.net.cn/assets/i/favicon.ico">
+  <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+  <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 110px;
+    }
+
+    .comWidth {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    .archive {
+      padding-top: 30px;
+    }
+
+    .archive .main{
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .title {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('./header.html') %>
+    <div class="comWidth archive">
+      <a href="<%= prefix %>/">返回</a>
+      <div class="main">
+        <h1 class="title">
+          <%= archive.name.replace(/\.md$/, '') %>
+        </h1>
+        <%- archive.content %>
+      </div>
+    </div>
+</body>
+
+</html>
