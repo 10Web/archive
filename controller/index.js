@@ -1,13 +1,12 @@
 'use strict';
 
 const config = require('../config');
-const GitArchive = require('..//model/git');
+const Archive = require('../model/yuque');
 const co = require('co');
 const _ = require('lodash');
 const log = require('../common/log');
-const markdown = require('markdown').markdown;
 
-const archive = new GitArchive(config.own, config.repo);
+const archive = new Archive(config.yuque.repo_id);
 
 /**
  * @api /
@@ -43,24 +42,6 @@ exports.list = function (req, callback) {
 };
 
 /**
- * @api /find/:name
- * @description 获取某一篇文章的详情
- * @params
- *  name {String} archive的name
- */
-exports.find = function (req, callback) {
-  const name = _.get(req, 'params.name');
-  if (!name) {
-    return callback('NO_NAME_FOUND');
-  }
-
-  co(function* () {
-    const item = yield archive.find(name);
-    callback(null, item, 'json');
-  });
-};
-
-/**
  * @api /p/:name
  * @description 用于访问每一个archive的具体内容
  */
@@ -73,7 +54,7 @@ exports.p = function (req, callback) {
   co(function* () {
     const item = yield archive.find(name);
     if (item) {
-      item.content = markdown.toHTML(item.content);
+      item.content = item.body_html;
       callback(null, {
         tpl: 'p.html',
         data: {

@@ -22,6 +22,7 @@ body{
   height: 200px;
   border: 1px solid #eee;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 
 .archive:hover{
@@ -32,7 +33,7 @@ body{
 .archive .left{
   width: 146px;
   float: left;
-  padding: 5px;
+  padding: 3px;
   background: #333;
   height: 100%;
 }
@@ -45,12 +46,13 @@ body{
   padding-top: 20px;
 }
 
-.archive .left .inner h2, .archive .left .inner h4{
+.archive .left .inner h2{
   margin: 0;
+  line-height: 15px;
 }
 
-.archive .left .inner h2{
-  line-height: 15px;
+.archive .left .inner h4{
+  margin: 5px 0 5px 0;
 }
 
 .archive .left .inner .count{
@@ -80,8 +82,15 @@ body{
   margin: 0;
 }
 
-.archive .right .breif{
+.archive .right .title{
   border-top: 1px solid #333;
+  font-size: 28px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 20px;
+  color: #333;
 }
 
 .paging {

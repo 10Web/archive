@@ -13,6 +13,8 @@
   <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
   <script src="https://cdn.bootcss.com/superagent/3.8.3/superagent.min.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+  <script src="https://cdn.bootcss.com/moment.js/2.22.1/locale/zh-cn.js"></script>
   </head>
   <body>
     <%- include('./header.html') %>
@@ -27,17 +29,19 @@
         <div class="archive" v-for="archive in archives">
           <div class="left">
             <div class="inner">
-              <h2>字数</h2>
-              <h4>count</h4>
+              <h2>更新</h2>
+              <h4>update</h4>
               <div class="count">
-                <h1>{{ archive.size }}</h1>
+                <!-- 语雀的稻谷数目 -->
+                <h1>{{ archive.last_update.count }}</h1>
+                {{ archive.last_update.unit }}
               </div>
             </div>
           </div>
-          <a class="right" v-bind:href="'<%= prefix %>/p/' + archive.name" target="_blank">
-            <h3>{{ archive.name.replace(/\.md$/, '') }}</h3>
-            <div class="breif">
-              {{ archive.content }}
+          <a class="right" v-bind:href="'<%= prefix %>/p/' + archive.id" target="_blank">
+            <h3>作者:{{ archive.last_editor.name }}</h3>
+            <div class="title">
+              {{ archive.title }}
             </div>
           </a>
         </div>
@@ -53,13 +57,8 @@
       <!-- 右边的广告列表 -->
       <div class="ad am-u-sm-12 am-u-md-4 am-u-lg-4"></div>
     </div>
-    <script src="<%= prefix %>/assets/static/js/markdown.js"></script>
     <script>
 
-      // markdown转html函数
-      function markdown2html(text){
-        return markdown.toHTML(text);
-      }
       
       // 返回当前的页码
       function nowPage(){
@@ -89,11 +88,19 @@
               this.total = resp.data.total;
               this.totalPage = Math.ceil((this.total / 10));
               this.archives = resp.data.list.map(item => {
-                 // 从markdown => html
-                 item.content = markdown2html(item.content);
-                 // html => text
-                 item.content = $(item.content).text();
-                 return item;
+                let update = 0;
+                try{
+                  update = moment(item.updated_at).fromNow();
+                }catch(e){
+                  console.log(e);
+                }
+                const count = update.match(/[\d]+/)[0];
+                console.log(count, update);
+                item.last_update = {
+                  count,
+                  unit: update.replace(count, '')
+                };
+                return item;
               });
              }else{
                alert('请求失败');
