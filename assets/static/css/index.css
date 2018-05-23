@@ -84,8 +84,7 @@ body{
 
 .archive .right .title{
   border-top: 1px solid #333;
-  font-size: 28px;
-  white-space: nowrap;
+  font-size: 2.5rem;
   text-overflow: ellipsis;
   width: 100%;
   overflow: hidden;
