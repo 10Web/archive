@@ -95,12 +95,18 @@
                 }catch(e){
                   console.log(e);
                 }
-                const count = update.match(/[\d]+/)[0];
-                console.log(count, update);
-                item.last_update = {
-                  count,
-                  unit: update.replace(count, '')
-                };
+                if(/[\d]+/.test(update)){
+                  const count = update.match(/[\d]+/)[0];
+                  item.last_update = {
+                    count,
+                    unit: update.replace(count, '')
+                  };
+                }else{
+                  item.last_update = {
+                    count: '几',
+                    unit: '秒前'
+                  };
+                }
                 return item;
               });
              }else{
