@@ -6,7 +6,7 @@ const co = require('co');
 const _ = require('lodash');
 const log = require('../common/log');
 
-const archive = new Archive(config.yuque.repo_id);
+const archive = new Archive(config.yuque.repo_id,config.yuque.token);
 
 /**
  * @api /
@@ -37,6 +37,7 @@ exports.list = function (req, callback) {
   log.info('begin to fetch data');
   co(function* () {
     const result = yield archive.list(offset, limit, name);
+   // yield archive.newarchive();
     callback(null, result, 'json');
   });
 };
@@ -65,5 +66,20 @@ exports.p = function (req, callback) {
     }
   }).catch(e => {
     callback(e.stack || e.message || e);
+  });
+};
+/**
+ * @api /newa
+ * @desc 发送新文章
+ */
+exports.newa = function(req, callback){
+  const newtittle= req.query.newtittle;
+  const newkey= req.query.newkey;
+  const newslug= req.query.newslug;
+  const newbody= req.query.newbody;
+      log.info('begin to post');
+  co(function*(){
+    yield archive.newarchive(newtittle,newkey,newslug,newbody);
+    callback(null, result, 'json');
   });
 };
