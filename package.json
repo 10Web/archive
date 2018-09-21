@@ -1,6 +1,6 @@
 {
   "name": "archive",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "eling archives app",
   "main": "app.js",
   "scripts": {
