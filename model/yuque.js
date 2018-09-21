@@ -8,8 +8,9 @@ class Yuque {
   /**
    * @param {String} id repo 的 id, 参考：https://yuque.com/yuque/developer/doc
    */
-  constructor(id) {
+  constructor(id,token) {
     this.id = id;
+	this.token=token;
   }
 
   list(
@@ -44,7 +45,18 @@ class Yuque {
       let data = _.get(result, 'body.data');
       return data;
     });
-  }
+      }
+	  newarchive(newtittle,newkey,newslug,newbody){
+     const self = this;
+     return co(function*(){
+     yield request.post(`${baseUrl}/repos/${self.id}/docs`)
+                                 .set("Content-Type", "application/x-www-form-urlencoded")
+                                 .set("User-Agent", "my-app-name")
+                                 .set("X-Auth-Token",self.token)
+                                 .send({"title":newtittle,"Key":newkey,"public":1,"body":newbody,"slug":newslug});
+   });
+
+   }
 }
 
 module.exports = Yuque;

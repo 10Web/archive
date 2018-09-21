@@ -53,6 +53,12 @@
             </li>
           </ul>
         </div>
+           <br><div class="archive newarchive" >标题:<input v-model="newtittle" class="textline"><br><br>
+                key:<input v-model="newkey" class="textline"><br><br>
+                slug:<input v-model="newslug" class="textline"><br><br>
+                正文:<textarea v-model="newbody" class="textbox"></textarea><br>
+                <button v-on:click="sendarchive()" >{{submit}}</button>
+       </div>
       </div>
 
       <!-- 右边的广告列表 -->
@@ -79,6 +85,13 @@
           total: 0,
           page: nowPage(),
           totalPage: 0,
+		  newtittle:"",
+          newkey:"",
+          newslug:"",
+          newbody:"",
+          submit:"发表",
+
+
         },
         created: function(){
           this.loading = true;
@@ -114,7 +127,16 @@
              }
              this.loading = false;
            });
+		               
+        },
+               methods:{
+        sendarchive:function(){
+          superagent.get('<%= prefix %>/newa')
+          .query({"newtittle":this.newtittle,"newkey":this.newkey,"newslug":this.newslug,"newbody":this.newbody})
+          .then(location.reload(true));
         }
+ }
+        
       });
 
     </script>
