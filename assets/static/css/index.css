@@ -92,6 +92,30 @@ body{
   color: #333;
 }
 
+.newarchive{
+   height: 400px;
+   cursor: auto;
+ }
+
+ .newarchive:hover{
+   box-shadow: 0px 0px 0px grey;
+   transition: 0.5s;
+ }
+
+ .textline{
+   height: 20px;
+   width: 200px;
+   border: 1px solid #333;
+ }
+
+ .textbox{
+   height: 200px;
+   width:500px;
+   border: 1px solid #333;
+ }
+
+
+
 .paging {
   list-style: none;
   overflow: hidden;
