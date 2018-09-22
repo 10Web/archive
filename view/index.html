@@ -49,7 +49,7 @@
         <div class="paging">
           <ul>
             <li v-for="n in totalPage" v-bind:class="{'now': Number(n) === Number(page)}">
-              <a v-bind:href="'<%= prefix %>/page=' + n">{{n}}</a>
+              <a v-bind:href="'<%= prefix %>?page=' + n">{{n}}</a>
             </li>
           </ul>
         </div>
