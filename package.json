@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "test": "make test",
-    "eslint": "eslint --ext .js --ext .jsx --ignore-path .gitignore .",
+    "eslint": "eslint --ignore-path .eslintignore .",
     "postpack": "rm -f gitignore"
   },
   "repository": {

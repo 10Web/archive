@@ -1,7 +1,6 @@
 const request = require('superagent');
 const co = require('co');
 const _ = require('lodash');
-const log = require('../common/log');
 
 const baseUrl = 'https://yuque.com/api/v2';
 class Yuque {
