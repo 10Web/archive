@@ -41,5 +41,6 @@
     "mockjs": "^1.0.1-beta3",
     "power-assert": "^1.4.4",
     "supertest": "^3.0.0"
-  }
+  },
+  "package-mode": "node"
 }
