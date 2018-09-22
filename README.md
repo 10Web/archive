@@ -1,5 +1,7 @@
 <h2 align="center">南开大学亿灵官方网站Archive</h2>
 
+[![CircleCI](https://circleci.com/gh/10Web/archive/tree/master.svg?style=svg)](https://circleci.com/gh/10Web/archive/tree/master)
+
 ## 说明
 
 archive 就是文章和活动的混合体，用archive来代替。
@@ -9,7 +11,9 @@ archive 就是文章和活动的混合体，用archive来代替。
 
 ## 撰写新文章
 
-申请加入我们的语雀组：https://www.yuque.com/10web-archive。审批通过之后即可自由的发布文章。
+申请加入我们的语雀组：https://www.yuque.com/10web-archive
+
+审批通过之后即可自由的发布文章。
 
 
 
