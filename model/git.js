@@ -1,5 +1,3 @@
-
-
 const request = require('superagent');
 const co = require('co');
 const _ = require('lodash');
@@ -20,7 +18,7 @@ class GitArchive {
   constructor(own, repo) {
     this.own = own;
     this.repo = repo;
-    this.baseUrl  = `https://api.github.com/repos/${this.own}/${this.repo}/contents`;
+    this.baseUrl = `https://api.github.com/repos/${this.own}/${this.repo}/contents`;
   }
 
   /**
@@ -74,7 +72,7 @@ class GitArchive {
       for (let item of list) {
         try {
           const file = (yield request.get(`${baseUrl}/${item.name}`)).body;
-          item.content =   new Buffer(file.content, 'base64').toString();
+          item.content = new Buffer(file.content, 'base64').toString();
         } catch (e) {
           log.error(e.stach || e.message || e);
         }
@@ -114,7 +112,7 @@ class GitArchive {
 
     return co(function* () {
       const file = (yield request.get(`${baseUrl}/${filename}`)).body;
-      const content =   new Buffer(file.content, 'base64').toString();
+      const content = new Buffer(file.content, 'base64').toString();
       file.content = content;
 
       // 存入缓存
